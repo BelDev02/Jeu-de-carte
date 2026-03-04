@@ -1,73 +1,66 @@
-# 🎴 Jeu de Cartes en Python
+import random
 
-## 📌 Description
+class Carte:
+    """Représente une carte avec une couleur et une valeur"""
+    order_valeur = ["7", "8", "9", "10", "J", "Q", "K", "A"]
 
-Ce projet implémente un jeu de cartes standard de 32 cartes (de 7 à As) avec les 4 couleurs : Coeur, Pique, Carreau et Trèfle.  
+    def __init__(self, couleur, valeur):
+        self.couleur = couleur
+        self.valeur = valeur
 
-Le programme permet de créer un jeu, de mélanger les cartes, d’accéder aux cartes individuellement, de modifier des cartes et de trier le jeu par valeur.
+    def __repr__(self):
+        return f"Carte({self.couleur}, {self.valeur})"
 
-Cette version inclut une structure orientée objet avec les classes `Carte` et `Desc` pour gérer les cartes et le jeu.
+    def __eq__(self, autre_carte):
+        return self.valeur == autre_carte.valeur and self.couleur == autre_carte.couleur
 
----
+    def __lt__(self, autre_carte):
+        return self.order_valeur.index(self.valeur) < self.order_valeur.index(autre_carte.valeur)
 
-## 📝 Sujet du projet
 
-### Instructions de base :
+class Desc:
+    """Représente un jeu de cartes (deck)"""
 
-- Créer une classe `Carte` représentant une carte avec une couleur et une valeur
-- Créer une classe `Desc` représentant le jeu de cartes
-- Initialiser le jeu avec toutes les combinaisons possibles de couleurs et valeurs
-- Mélanger le jeu à l’instanciation
-- Permettre l’accès aux cartes par index
-- Autoriser la modification d’une carte via un index (avec vérification du type)
-- Afficher le jeu trié par valeur
+    def __init__(self):
+        valeurs = ["7", "8", "9", "10", "J", "Q", "K", "A"]
+        couleurs = ["Coeur", "Pique", "Carreau", "Trefle"]
+        self.cartes = [Carte(c, v) for c in couleurs for v in valeurs]
+        random.shuffle(self.cartes)
 
-### Extensions ajoutées :
+    def __len__(self):
+        return len(self.cartes)
 
-- Tri automatique des cartes
-- Affichage détaillé du jeu complet et de certaines cartes
-- Support de la notation spéciale Python (`__len__`, `__getitem__`, `__setitem__`) pour manipuler le jeu comme une liste
+    def __getitem__(self, position):
+        return self.cartes[position]
 
----
+    def __setitem__(self, position, valeur):
+        if isinstance(valeur, Carte):
+            self.cartes[position] = valeur
+        else:
+            raise TypeError("Vous faites une mauvaise assignation, ce n'est pas une Carte.")
 
-## 🎮 Fonctionnalités implémentées
+    def trie(self):
+        """Retourne le jeu trié par valeur"""
+        return sorted(self.cartes)
 
-✔ Création d’une carte avec couleur et valeur  
-✔ Création d’un jeu de cartes complet  
-✔ Mélange automatique du jeu  
-✔ Accès aux cartes via un index  
-✔ Modification sécurisée des cartes  
-✔ Tri du jeu par valeur  
-✔ Affichage du jeu complet et des cartes sélectionnées  
-✔ Code structuré avec classes et méthodes  
 
----
+# --- Programme principal ---
 
-## 🧠 Structure du jeu
-
-| Classe     | Description |
-|------------|-------------|
-| `Carte`    | Représente une carte unique avec couleur et valeur |
-| `Desc`     | Conteneur pour toutes les cartes, avec mélange, accès, modification et tri |
-
----
-
-## 🏆 Utilisation du jeu
-
-```python
-from jeu_cartes import Desc, Carte
-
-# Création et mélange du jeu
 mon_jeu = Desc()
 
-# Affichage de la première et dernière carte
-print(mon_jeu[0])
-print(mon_jeu[-1])
+# Affichage des cartes du jeu
+for carte in mon_jeu:
+    print(carte)
+
+print(f"\nNotre jeu comporte {len(mon_jeu)} cartes")
+print(f"La première carte du jeu est: {mon_jeu[0]}")
+print(f"La dernière carte du jeu est: {mon_jeu[-1]}")
 
 # Affichage des 7 premières cartes
-for i in range(7):
-    print(mon_jeu[i])
+print("\nLes 7 premières cartes du jeu:")
+for position in range(7):
+    print(mon_jeu[position])
 
-# Trier le jeu et afficher
-jeu_trie = mon_jeu.trie()
-print(jeu_trie)
+# Affichage du jeu trié
+print("\nJeu trié par valeur:")
+print(mon_jeu.trie())
