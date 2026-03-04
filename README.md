@@ -51,6 +51,14 @@ Cette version inclut une structure orientée objet avec les classes `Carte` et `
 | `Desc`     | Conteneur pour toutes les cartes, avec mélange, accès, modification et tri |
 
 ---
+## 🛠️ Technologies utilisées
+
+- **Python 3**  
+- Module standard `random` (pour mélanger le jeu)  
+- Classes et objets pour la programmation orientée objet  
+- Méthodes spéciales Python (`__len__`, `__getitem__`, `__setitem__`)  
+- Boucles (`for`) et conditions (`if`)  
+- Tri de listes avec `sorted()`  
 
 ## 🏆 Utilisation du jeu
 
